@@ -1,0 +1,1 @@
+Sistema web de restaurante desarrollado con HTML5, CSS3 y JavaScript. Incluye gestión de pedidos, control de inventario, facturación electrónica, reportes de ventas, delivery y cartas QR. El sistema cuenta con diseño responsive, interfaz moderna e interacción dinámica para una experiencia más intuitiva en dispositivos móviles, tablets y computadoras.
