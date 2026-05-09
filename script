@@ -1,0 +1,280 @@
+// FORMULARIO
+const formulario = document.getElementById("pedidoForm");
+
+// MÉTRICAS
+const ventas = document.getElementById("ventas");
+const pedidos = document.getElementById("pedidos");
+const ticket = document.getElementById("ticket");
+const rendimiento = document.getElementById("rendimiento");
+
+// VARIABLES
+let totalVentas = 0;
+let totalPedidos = 0;
+
+// EVENTO DEL FORMULARIO
+formulario.addEventListener("submit", function(e){
+
+  e.preventDefault();
+
+  const cliente = document.getElementById("cliente").value;
+
+  const producto = document.getElementById("producto").value;
+
+  const cantidad = parseInt(
+    document.getElementById("cantidad").value
+  );
+
+  // VALIDACIÓN
+  if(producto === ""){
+
+    alert("Seleccione un producto");
+    return;
+
+  }
+
+  // PRECIOS
+  const precios = {
+
+    "Lomo Saltado":25,
+    "Ceviche":30,
+    "Hamburguesa":18,
+    "Pizza":40
+
+  };
+
+  // TOTAL
+  const total = precios[producto] * cantidad;
+
+  totalVentas += total;
+  totalPedidos++;
+
+  // ACTUALIZAR MÉTRICAS
+  ventas.textContent = "S/ " + totalVentas;
+
+  pedidos.textContent = totalPedidos;
+
+  const promedio = (
+    totalVentas / totalPedidos
+  ).toFixed(2);
+
+  ticket.textContent = "S/ " + promedio;
+
+  // RENDIMIENTO ALEATORIO
+  const randomRendimiento = Math.floor(
+    Math.random() * 100
+  );
+
+  rendimiento.textContent = randomRendimiento + "%";
+
+  // NOTIFICACIÓN
+  mostrarNotificacion(
+    cliente,
+    producto,
+    cantidad
+  );
+
+  // LIMPIAR FORMULARIO
+  formulario.reset();
+
+});
+
+// FUNCIÓN NOTIFICACIÓN
+
+function mostrarNotificacion(
+  cliente,
+  producto,
+  guarnicion,
+  bebida,
+  cantidad,
+  total,
+  precioPlato,
+  precioGuarnicion,
+  precioBebida
+){
+
+  const notificacion =
+    document.createElement("div");
+
+  // =========================
+  // NOTIFICACIÓN DETALLADA
+  // =========================
+
+  notificacion.innerHTML = `
+
+    <strong>
+      ✅ Pedido enviado a cocina
+    </strong>
+
+    <br><br>
+
+    👤 Cliente: ${cliente}<br><br>
+
+    🍽 Plato:
+    ${producto}
+    (S/ ${precioPlato})<br>
+
+    🍟 Guarnición:
+    ${guarnicion}
+    (S/ ${precioGuarnicion})<br>
+
+    🥤 Bebida:
+    ${bebida}
+    (S/ ${precioBebida})<br><br>
+
+    🔢 Cantidad:
+    ${cantidad}<br>
+
+    💰 Total:
+    <strong>S/ ${total}</strong>
+
+  `;
+
+
+
+
+
+// ESTILOS
+  notificacion.style.position = "fixed";
+  notificacion.style.top = "20px";
+  notificacion.style.right = "20px";
+  notificacion.style.background = "#10b981";
+  notificacion.style.color = "white";
+  notificacion.style.padding = "20px";
+  notificacion.style.borderRadius = "12px";
+  notificacion.style.boxShadow =
+    "0 5px 15px rgba(0,0,0,0.3)";
+  notificacion.style.zIndex = "999";
+  notificacion.style.lineHeight = "1.6";
+
+  document.body.appendChild(notificacion);
+
+  // ELIMINAR NOTIFICACIÓN
+  setTimeout(()=>{
+
+    notificacion.remove();
+
+  },4000);
+
+}
+
+// ALERTA INVENTARIO DINÁMICA
+setInterval(()=>{
+
+  const alerta =
+    document.getElementById("alertaStock");
+
+  const random = Math.random();
+
+  if(random > 0.5){
+
+    alerta.innerHTML =
+      "⚠ Stock bajo detectado en tomates";
+
+    alerta.style.color = "red";
+
+  }else{
+
+    alerta.innerHTML =
+      "✅ Inventario estable";
+
+    alerta.style.color = "green";
+
+  }
+
+},5000);
+
+// ANIMACIÓN MÉTRICAS
+setInterval(()=>{
+
+  if(totalPedidos > 0){
+
+    const incremento = Math.floor(
+      Math.random() * 20
+    );
+
+    totalVentas += incremento;
+
+    ventas.textContent =
+      "S/ " + totalVentas;
+
+  }
+
+},4000);
+
+// EFECTO DINÁMICO EN GALERÍA
+
+const cards = document.querySelectorAll(".imagen-card");
+
+cards.forEach(card => {
+
+  card.addEventListener("mouseenter", () => {
+
+    card.style.boxShadow =
+      "0 10px 25px rgba(0,0,0,0.25)";
+
+  });
+
+  card.addEventListener("mouseleave", () => {
+
+    card.style.boxShadow =
+      "0 5px 15px rgba(0,0,0,0.1)";
+
+  });
+
+});
+
+
+
+// =========================
+// PRECIOS COMPLETOS
+// =========================
+
+const preciosPlatos = {
+
+  "Lomo Saltado": 25,
+  "Ceviche": 30,
+  "Hamburguesa": 18,
+  "Pizza": 40
+
+};
+
+const preciosGuarnicion = {
+
+  "Ninguna": 0,
+  "Papas Fritas": 8,
+  "Arroz": 5,
+  "Ensalada": 7,
+  "Yuca Frita": 9
+
+};
+
+const preciosBebida = {
+
+  "Ninguna": 0,
+  "Inca Kola": 6,
+  "Coca Cola": 6,
+  "Chicha Morada": 8,
+  "Agua Mineral": 4
+
+};
+
+// =========================
+// TOTAL DEL PEDIDO
+// =========================
+
+const precioPlato =
+  preciosPlatos[producto];
+
+const precioGuarnicion =
+  preciosGuarnicion[guarnicion];
+
+const precioBebida =
+  preciosBebida[bebida];
+
+const subtotal =
+  precioPlato +
+  precioGuarnicion +
+  precioBebida;
+
+const total =
+  subtotal * cantidad;
